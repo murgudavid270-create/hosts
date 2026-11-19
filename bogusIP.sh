@@ -1,4 +1,17 @@
 #!/bin/bash
+verifica_ip() {
+    local nume="$1"
+    local ip="$2"
+    local dns="$3"
+    local ips
+
+    ips=$(nslookup "$nume" "$dns" | awk '/^Name:/ {n=1} n && /^Address:/ {print $2}')
+
+    if ! echo "$ips" | grep -qx "$ip"; then
+        echo "Bogus IP for $nume in /etc/hosts!"
+    fi
+}
+
 cat /etc/hosts | while read ip nume restul
 do
 
@@ -14,9 +27,5 @@ do
         *:*) continue ;;
     esac
 
-    ips=$(nslookup "$nume" 8.8.8.8 | awk '/^Name:/ {n=1} n && /^Address:/ {print $2}')
-
-    if ! echo "$ips" | grep -qx "$ip"; then
-        echo "Bogus IP for $nume in /etc/hosts!"
-    fi
+    verifica_ip "$nume" "$ip" 8.8.8.8
 done
