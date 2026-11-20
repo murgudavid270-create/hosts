@@ -1,4 +1,5 @@
 #!/bin/bash
+echo "SCRIPTUL"
 verifica_ip() {
     local nume="$1"
     local ip="$2"
