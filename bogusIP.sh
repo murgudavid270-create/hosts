@@ -1,4 +1,5 @@
 #!/bin/bash
+echo "Script modificat de Murgu David"
 echo "SCRIPTUL"
 verifica_ip() {
     local nume="$1"
